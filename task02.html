@@ -181,6 +181,10 @@
 			}
 
 			let name = document.getElementById('name');
+			let name_help = document.getElementById('name_help');
+			name.addEventListener('focus', function() {
+				name_help.style.visibility = 'visible';
+			});
 			name.addEventListener('blur', function() {
 				validate('name', '名称');
 				nameFlag = validate('name', '名称');
@@ -188,6 +192,10 @@
 			});
 
 			let pw = document.getElementById('pw');
+			let pw_help = document.getElementById('pw_help');
+			pw.addEventListener('focus', function() {
+				pw_help.style.visibility = 'visible';
+			});
 			pw.addEventListener('blur', function() {
 				validate('pw', '密码');
 				pwFlag = validate('pw', '密码');
@@ -195,6 +203,10 @@
 
 			let pw_repeat = document.getElementById('pw_repeat');
 			let pw_repeat_help = document.getElementById('pw_repeat_help');
+			pw_repeat.addEventListener('focus', function() {
+				pw_repeat_help.style.visibility = 'visible';
+			});
+
 			pw_repeat.addEventListener('blur', function() {
 				var flag = validatePw();
 				pw_repeat_help.style.visibility = 'visible';
@@ -218,6 +230,9 @@
 
 			let email = document.getElementById('email');
 			let email_help = document.getElementById('email_help');
+			email.addEventListener('focus', function() {
+				email_help.style.visibility = 'visible';
+			});
 			email.addEventListener('blur', function() {
 				var emailValue = email.value;
 				var flag = isEmail(emailValue);
@@ -237,6 +252,9 @@
 
 			let phone = document.getElementById('phone');
 			let phone_help = document.getElementById('phone_help');
+			phone.addEventListener('focus', function() {
+				phone_help.style.visibility = 'visible';
+			});
 			phone.addEventListener('blur', function() {
 				let phoneValue = phone.value;
 				let flag = isPhoneNumber(phoneValue);
