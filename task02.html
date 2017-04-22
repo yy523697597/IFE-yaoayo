@@ -1,280 +1,272 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="UTF-8">
-    <title>IFE yaoyao task02</title>
-    <style type="text/css">
-        section{
-            font-family:"微软雅黑";
-            width:500px;
-            margin:100px auto;
-        }
-        input{
-            width:250px;
-            height:30px;
-            border:1px solid #ccc;
-            border-radius:5px;
-            margin:0 20px;
-        }
-        label{
-            width:100px;
-            display:inline-block;
-        }
-        button{
-            width:100px;
-            height:35px;
-            background:#56afec;
-            border:2px solid #ccc;
-            border-radius:5px;
-            color:#fff;
-            font-size:20px;
-            cursor:pointer;
-        }
-        .help{
-            margin-left:125px;
-            margin-top:10px;
-            color:#aaa;
-            visibility:hidden;
-        }
-        div{
-            margin:10px 0;
-        }
-    </style>
-</head>
+	<head>
+		<meta charset="UTF-8">
+		<title>IFE yaoyao task02</title>
+		<style type="text/css">
+			section {
+				font-family: "微软雅黑";
+				width: 500px;
+				margin: 100px auto;
+			}
+			
+			input {
+				width: 250px;
+				height: 30px;
+				border: 1px solid #ccc;
+				border-radius: 5px;
+				margin: 0 20px;
+			}
+			
+			label {
+				width: 100px;
+				display: inline-block;
+			}
+			
+			button {
+				width: 100px;
+				height: 35px;
+				background: #56afec;
+				border: 2px solid #ccc;
+				border-radius: 5px;
+				color: #fff;
+				font-size: 20px;
+				cursor: pointer;
+			}
+			
+			.help {
+				margin-left: 125px;
+				margin-top: 10px;
+				color: #aaa;
+				visibility: hidden;
+			}
+			
+			div {
+				margin: 10px 0;
+			}
+		</style>
+	</head>
 
-<body>
-<section>
-    <label for="name">名称</label> <input type="" name="" id="name" value=""/>
-    <div id="name_help" class="help">必填，长度为4-16个字符</div>
+	<body>
+		<section>
+			<label for="name">名称</label> <input type="" name="" id="name" value="" />
+			<div id="name_help" class="help">必填，长度为4-16个字符</div>
 
-    <label for="pw">密码</label> <input type="password" name="" id="pw" value=""/>
-    <div id="pw_help" class="help">必填，长度为4-16个字符</div>
+			<label for="pw">密码</label> <input type="password" name="" id="pw" value="" />
+			<div id="pw_help" class="help">必填，长度为4-16个字符</div>
 
-    <label for="pw_repeat_help">密码确认</label> <input type="password" name="" id="pw_repeat" value=""/>
-    <div id="pw_repeat_help" class="help">再次输入相同密码</div>
+			<label for="pw_repeat_help">密码确认</label> <input type="password" name="" id="pw_repeat" value="" />
+			<div id="pw_repeat_help" class="help">再次输入相同密码</div>
 
-    <label for="email">邮箱</label> <input type="email" name="" id="email" value=""/>
-    <div id="email_help" class="help">请输入您的邮箱</div>
+			<label for="email">邮箱</label> <input type="email" name="" id="email" value="" />
+			<div id="email_help" class="help">请输入您的邮箱</div>
 
-    <label for="phone">手机</label> <input type="text" name="" id="phone" value=""/>
-    <div id="phone_help" class="help">请输入您的手机号码</div>
+			<label for="phone">手机</label> <input type="text" name="" id="phone" value="" />
+			<div id="phone_help" class="help">请输入您的手机号码</div>
 
-    <button id="validateBtn">验证</button>
-</section>
+			<button id="validateBtn">验证</button>
+		</section>
 
-<script>
-    let nameFlag,
-        pwFlag,
-        pwReFlag,
-        emailFlag,
-        phoneFlag,
-        inputBoxFlag;
+		<script>
+			let nameFlag,
+				pwFlag,
+				pwReFlag,
+				emailFlag,
+				phoneFlag,
+				inputBoxFlag;
 
-    //使用es6 codePointAt来判别是否为中文字符
-    function is32Bit(c){
-        return c.codePointAt(0) > 0xFF;
-    }
+			//使用es6 codePointAt来判别是否为中文字符
+			function is32Bit(c) {
+				return c.codePointAt(0) > 0xFF;
+			}
 
-    //验证邮箱
-    function isEmail(str){
-        if(str.length < 1){
-            return 0;
-        }
-        // 使用正则表达式进行邮箱验证，真的超级长
-        let reg = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
-        return reg.test(str);
-    }
+			//验证邮箱
+			function isEmail(str) {
+				if (str.length < 1) {
+					return 0;
+				}
+				// 使用正则表达式进行邮箱验证，真的超级长
+				let reg = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+				return reg.test(str);
+			}
 
-    //校验两次密码输入是否一致
-    function validatePw(){
-        let pwValue = document.getElementById('pw').value;
-        let pwRepeatValue = document.getElementById('pw_repeat').value;
-        if(pwValue === ''){
-            return 0;
-        }
-        return pwValue === pwRepeatValue;
-    }
+			//校验两次密码输入是否一致
+			function validatePw() {
+				let pwValue = document.getElementById('pw').value;
+				if (pwValue.length < 1) {
+					return 0;
+				}
+				let pwRepeatValue = document.getElementById('pw_repeat').value;
 
-    function isPhoneNumber(str){
-        if(str.length < 1){
-            return 0;
-        }
-        //使用正则匹配手机号码
-        let reg = /^1(3|4|5|7|8)[0-9]\d{8}$/g;
-        return reg.test(str);
-    }
+				return pwValue === pwRepeatValue;
+			}
 
-    //计算字符串长度
-    function calculate(str){
-        let ennum = 0;
-        let zhnum = 0;
-        //如果是中文字符，zhnum+1，如果不是ennum+1
-        for(let ch of str){
-            if(is32Bit(ch)){
-                zhnum += 1;
-            } else {
-                ennum += 1;
-            }
-        }
+			function isPhoneNumber(str) {
+				if (str.length < 1) {
+					return 0;
+				}
+				//使用正则匹配手机号码
+				let reg = /^1(3|4|5|7|8)[0-9]\d{8}$/g;
+				return reg.test(str);
+			}
 
-        return zhnum * 2 + ennum;
-    }
+			//计算字符串长度
+			function calculate(str) {
+				let ennum = 0;
+				let zhnum = 0;
+				//如果是中文字符，zhnum+1，如果不是ennum+1
+				for (let ch of str) {
+					if (is32Bit(ch)) {
+						zhnum += 1;
+					} else {
+						ennum += 1;
+					}
+				}
 
-    //校验字符串长度是否大于等于4，小于等于16
-    function stringValidate(inputBox){
+				return zhnum * 2 + ennum;
+			}
 
-        let inputValue = inputBox.value;
-        if(inputValue === ''){
-            return 0;
-        }
-        let strLength = calculate(inputValue);
+			//校验字符串长度是否大于等于4，小于等于16
+			function stringValidate(inputBox) {
 
-        return strLength >= 4 && strLength <= 16 ? true : false;
-    }
+				let inputValue = inputBox.value;
+				if (inputValue.length < 1) {
+					return 0;
+				}
+				let strLength = calculate(inputValue);
 
-    //改变颜色
-    function changeColor(node, color){
-        node.style.color = color;
-        node.style.borderColor = color;
-    }
+				return strLength >= 4 && strLength <= 16 ? true : false;
+			}
 
-    //名称和密码校验
-    function validate(node, type){
-        //node参数必须是字符串
-        let inputBox = document.getElementById(node);
-        let inputBox_help = document.getElementById(node + '_help');
-        let flag = stringValidate(inputBox);
+			//改变颜色
+			function changeColor(node, color) {
+				let ele = document.getElementById(node);
+				let ele_help = document.getElementById(node + '_help');
+				ele.style.color = color;
+				ele.style.borderColor = color;
+				ele_help.style.color = color;
+			}
 
-        if(flag === 0){
-            inputBox_help.innerText = type + '不能为空';
-            inputBox_help.style.visibility = 'visible';
+			//名称和密码校验
+			function validate(node, type) {
+				//node参数必须是字符串
+				let inputBox = document.getElementById(node);
+				let inputBox_help = document.getElementById(node + '_help');
+				let flag = stringValidate(inputBox);
+				inputBox_help.style.visibility = 'visible';
 
-            changeColor(inputBox, 'red');
-            changeColor(inputBox_help, 'red');
+				if (flag === 0) {
+					inputBox_help.innerText = type + '不能为空';
 
-            inputBoxFlag = false;
-            return inputBoxFlag;
+					changeColor(node, '#f00');
 
-        } else if(flag === true){
+					inputBoxFlag = false;
+					return inputBoxFlag;
 
-            inputBox_help.innerText = type + '格式正确';
-            inputBox_help.style.visibility = 'visible';
-            changeColor(inputBox, '#0f0');
-            changeColor(inputBox_help, '#0f0');
+				} else if (flag === true) {
 
-            inputBoxFlag = true;
-            return inputBoxFlag;
-        } else {
-            inputBox_help.innerText = type + '格式错误';
-            inputBox_help.style.visibility = 'visible';
-            changeColor(inputBox, 'red');
-            changeColor(inputBox_help, 'red');
+					inputBox_help.innerText = type + '格式正确';
+					changeColor(node, '#0f0');
 
-            inputBoxFlag = false;
-            return inputBoxFlag;
-        }
-    }
+					inputBoxFlag = true;
+					return inputBoxFlag;
+				} else {
+					inputBox_help.innerText = type + '格式错误';
+					changeColor(node, '#f00');
 
-    let name = document.getElementById('name');
-    name.addEventListener('blur', function(){
-        validate('name', '名称');
-        nameFlag = validate('name', '名称');
+					inputBoxFlag = false;
+					return inputBoxFlag;
+				}
+			}
 
-    });
+			let name = document.getElementById('name');
+			name.addEventListener('blur', function() {
+				validate('name', '名称');
+				nameFlag = validate('name', '名称');
 
-    let pw = document.getElementById('pw');
-    pw.addEventListener('blur', function(){
-        validate('pw', '密码');
-        pwFlag = validate('pw', '密码');
-    });
+			});
 
-    let pw_repeat = document.getElementById('pw_repeat');
-    let pw_repeat_help = document.getElementById('pw_repeat_help');
-    pw_repeat.addEventListener('blur', function(){
-        var flag = validatePw();
-        if(flag === 0){
-            pw_repeat_help.innerText = '密码不能为空';
-            pw_repeat_help.style.visibility = 'visible';
-            changeColor(pw_repeat, 'red');
-            changeColor(pw_repeat_help, 'red');
+			let pw = document.getElementById('pw');
+			pw.addEventListener('blur', function() {
+				validate('pw', '密码');
+				pwFlag = validate('pw', '密码');
+			});
 
-            pwReFlag = false;
-        } else if(flag === true){
-            pw_repeat_help.innerText = '密码输入一致';
-            pw_repeat_help.style.visibility = 'visible';
-            changeColor(pw_repeat, '#0f0');
-            changeColor(pw_repeat_help, '#0f0');
+			let pw_repeat = document.getElementById('pw_repeat');
+			let pw_repeat_help = document.getElementById('pw_repeat_help');
+			pw_repeat.addEventListener('blur', function() {
+				var flag = validatePw();
+				pw_repeat_help.style.visibility = 'visible';
+				if (flag === 0) {
+					pw_repeat_help.innerText = '密码不能为空';
+					changeColor('pw_repeat', '#f00');
 
-            pwReFlag = true;
-        } else {
-            pw_repeat_help.innerText = '两次密码输入不一致';
-            pw_repeat_help.style.visibility = 'visible';
-            changeColor(pw_repeat, 'red');
-            changeColor(pw_repeat_help, 'red');
+					pwReFlag = false;
+				} else if (flag === true) {
+					pw_repeat_help.innerText = '密码输入一致';
+					changeColor('pw_repeat', '#0f0');
 
-            pwReFlag = false;
-        }
-    });
+					pwReFlag = true;
+				} else {
+					pw_repeat_help.innerText = '两次密码输入不一致';
+					changeColor('pw_repeat', '#f00');
 
-    let email = document.getElementById('email');
-    let email_help = document.getElementById('email_help');
-    email.addEventListener('blur', function(){
-        var emailValue = email.value;
-        var flag = isEmail(emailValue);
-        if(flag){
-            email_help.innerText = '邮箱格式正确';
-            email_help.style.visibility = 'visible';
-            changeColor(email, '#0f0');
-            changeColor(email_help, '#0f0');
+					pwReFlag = false;
+				}
+			});
 
-            emailFlag = true;
-        } else {
-            email_help.innerText = '邮箱格式不正确';
-            email_help.style.visibility = 'visible';
-            changeColor(email, 'red');
-            changeColor(email_help, 'red');
+			let email = document.getElementById('email');
+			let email_help = document.getElementById('email_help');
+			email.addEventListener('blur', function() {
+				var emailValue = email.value;
+				var flag = isEmail(emailValue);
+				email_help.style.visibility = 'visible';
+				if (flag) {
+					email_help.innerText = '邮箱格式正确';
+					changeColor('email', '#0f0');
 
-            emailFlag = false;
-        }
-    });
+					emailFlag = true;
+				} else {
+					email_help.innerText = '邮箱格式不正确';
+					changeColor('email', '#f00');
 
-    let phone = document.getElementById('phone');
-    let phone_help = document.getElementById('phone_help');
-    phone.addEventListener('blur', function(){
-        let phoneValue = phone.value;
-        let flag = isPhoneNumber(phoneValue);
-        phone_help.style.visibility = 'visible';
-        if(flag === 0){
-            phone_help.innerText = '手机号不能为空';
-            changeColor(phone, 'red');
-            changeColor(phone_help, 'red');
+					emailFlag = false;
+				}
+			});
 
-            phoneFlag = false;
-        } else if(flag === true){
-            phone_help.innerText = '手机号格式正确';
-            changeColor(phone, '#0f0');
-            changeColor(phone_help, '#0f0');
+			let phone = document.getElementById('phone');
+			let phone_help = document.getElementById('phone_help');
+			phone.addEventListener('blur', function() {
+				let phoneValue = phone.value;
+				let flag = isPhoneNumber(phoneValue);
+				phone_help.style.visibility = 'visible';
+				if (flag === 0) {
+					phone_help.innerText = '手机号不能为空';
+					changeColor('phone', '#f00');
 
-            phoneFlag = true;
-        } else {
-            phone_help.innerText = '手机号格式不正确';
-            changeColor(phone, '#f00');
-            changeColor(phone_help, '#f00');
+					phoneFlag = false;
+				} else if (flag === true) {
+					phone_help.innerText = '手机号格式正确';
+					changeColor('phone', '#0f0');
 
-            phoneFlag = false;
-        }
-    });
+					phoneFlag = true;
+				} else {
+					phone_help.innerText = '手机号格式不正确';
+					changeColor('phone', '#f00');
 
-    let validateBtn = document.getElementById('validateBtn');
-    validateBtn.addEventListener('click', function(){
-            if(!(nameFlag && pwFlag && pwReFlag && emailFlag && phoneFlag)){
-                alert('输入有误');
-            }
+					phoneFlag = false;
+				}
+			});
 
-        }
-    );
-</script>
-</body>
+			let validateBtn = document.getElementById('validateBtn');
+			validateBtn.addEventListener('click', function() {
+				if (!(nameFlag && pwFlag && pwReFlag && emailFlag && phoneFlag)) {
+					alert('输入有误');
+				}
+
+			});
+		</script>
+	</body>
 
 </html>
