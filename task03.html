@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>ife yaoyao task03</title>
+		<style>
+			body {
+				font-family: "微软雅黑";
+				width: 400px;
+				margin: 0 auto;
+			}
+			
+			input[type=radio] {
+				margin-bottom: 10px;
+				width: 30px
+			}
+			
+			select {
+				width: 150px;
+				margin-right: 20px;
+				margin-bottom: 10px;
+				border-radius: 3px;
+			}
+			
+			input[type=text] {
+				width: 200px;
+				height: 20px;
+				border-radius: 5px;
+			}
+			
+			div {
+				margin-bottom: 10px;
+			}
+			
+			#school_container {
+				display: none;
+			}
+			
+			#com_container {
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div>
+			<input type="radio" name="student" id="student" value="在校生" />在校生
+			<input type="radio" name="student" id="not_student" value="非在校生" />非在校生
+		</div>
+		<div id="school_container">
+			<label for="city">学校</label>
+			<select id="city">
+				<option value="请选择" selected="">请选择</option>
+				<option value="北京">北京</option>
+				<option value="成都">成都</option>
+			</select>
+			<select id="school">
+				<option value="请选择" selected="">请选择</option>
+			</select>
+		</div>
+		<div id="com_container">
+			<label for="company">就业单位</label>
+			<input type="text" id="company" value="" />
+		</div>
+		<script type="text/javascript">
+			var school_container = document.getElementById('school_container');
+			var com_container = document.getElementById('com_container');
+			document.getElementById('student').onclick = function() {
+				school_container.style.display = 'block';
+				com_container.style.display = 'none';
+			};
+
+			document.getElementById('not_student').onclick = function() {
+				school_container.style.display = 'none';
+				com_container.style.display = 'block';
+			};
+
+			//创建一个对象来储存城市和学校
+			var schools = {
+				'请选择': ['请选择'],
+				'北京': ['北京大学', '清华大学'],
+				'成都': ['四川大学', '西南石油大学']
+			};
+
+			//下拉列表二级联动
+			function changeSchool(city, school) {
+
+				//使用selectedIndex来获取被选中的选项的索引
+				var index = city.selectedIndex;
+				//这里是options
+				var cityValue = city.options[index].value;
+
+				//在添加新的option标签以前，将原来的标签去掉
+				school.innerHTML = '';
+
+				//创建option选项并且添加到列表中
+				schools[cityValue].forEach(function(val, index, arr) {
+					var option = document.createElement('option');
+					//使用text和value来访问option的内容和值
+					option.text = val;
+					option.value = val;
+					school.appendChild(option);
+				});
+			}
+
+			var city = document.getElementById('city');
+			var school = document.getElementById('school');
+			city.addEventListener('change', function() {
+				changeSchool(city, school);
+			});
+		</script>
+	</body>
+
+</html>
