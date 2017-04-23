@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>yaoyao task06</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			body {
+				box-sizing: border-box;
+				font-family: "微软雅黑";
+			}
+			
+			.main {
+				position: relative;
+				height: 1080px;
+			}
+			
+			.shadow {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: rgba(0, 0, 0, .5);
+				z-index: 2;
+			}
+			
+			.musk {
+				width: 400px;
+				height: 300px;
+				position: fixed;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				z-index: 3;
+				background-color: #eee;
+				padding: 0;
+				border-radius: 5px;
+			}
+			
+			button {
+				width: 120px;
+				height: 30px;
+				border-radius: 5px;
+				margin-right: 20px;
+				background: #999;
+				color: #fff;
+			}
+			
+			h1 {
+				height: 50px;
+				line-height: 50px;
+				font-size: 20px;
+				background-color: #999;
+				color: #fff;
+				padding-left: 10px;
+				margin-bottom: 10px;
+			}
+			
+			p {
+				padding-left: 10px;
+			}
+			
+			.button-group {
+				position: absolute;
+				right: 0;
+				bottom: 20px;
+			}
+			
+			#out {
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="main" id="main">
+			<div class="shadow" id="shadow"></div>
+			<div class="musk" id="musk">
+				<h1>弹出层标题</h1>
+				<p>弹出层文字</p>
+				<div class="button-group">
+					<button id="submit">确定</button>
+					<button id="cancle">取消</button>
+				</div>
+			</div>
+			<button id="out">弹出弹出层</button>
+		</div>
+		<script>
+			
+			var shadow = document.getElementById('shadow');
+			var musk = document.getElementById('musk');
+			var out = document.getElementById('out');
+			var submit = document.getElementById('submit');
+			var cancle = document.getElementById('cancle');
+
+			function show() {
+				shadow.style.display = 'block';
+				musk.style.display = 'block';
+			}
+
+			function hide() {
+				musk.style.display = 'none';
+				shadow.style.display = 'none';
+			}
+			shadow.onclick = hide;
+			submit.onclick = hide;
+			cancle.onclick = hide;
+			out.onclick = show;
+			
+		</script>
+	</body>
+
+</html>
