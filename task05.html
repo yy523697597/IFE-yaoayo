@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>yaoyao task04</title>
+		<style>
+			body {
+				font-family: "微软雅黑";
+				width: 960px;
+				margin: 0 auto;
+			}
+			
+			.qipan {
+				width: 450px;
+				height: 450px;
+				background: url(qipan.png) repeat left top;
+				position: relative;
+				margin: 0 auto 10px;
+			}
+			
+			.qizi {
+				position: absolute;
+				width: 45px;
+				height: 45px;
+				transition: all 1s;
+			}
+			
+			.qizi-1 {
+				height: 9px;
+				background-color: blue;
+			}
+			
+			.qizi-2 {
+				height: 36px;
+				background-color: red;
+			}
+			
+			.input-container {
+				width: 300px;
+				margin: 0 auto;
+			}
+			
+			input[type=text] {
+				width: 200px;
+				border-radius: 3px;
+			}
+			
+			button {
+				width: 80px;
+				background: transparent;
+				border-radius: 3px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<p>如图，实现一个类似棋盘的格子空间，每个格子用两个数字可以定位，一个红正方形的 DOM 在这个空间内，正方形中的蓝色边表示这是他的正面，有一个 input 输入框.
+		</p>
+
+		<p> 在输入框中允许输入如下指令，按下按钮后，使得正方形做相应动作:
+			<ul>
+				<li>GO：向蓝色边所面向的方向前进一格（一格等同于正方形的边长）</li>
+				<li>TUN LEF：向左转（逆时针旋转 90 度）</li>
+				<li>TUN RIG：向右转（顺时针旋转 90 度） </li>
+				<li>TUN BAC：向右转（旋转 180 度）</li>
+				<li>TRA LEF：向屏幕的左侧移动一格，方向不变</li>
+				<li>TRA TOP：向屏幕的上面移动一格，方向不变</li>
+				<li>TRA RIG：向屏幕的右侧移动一格，方向不变</li>
+				<li>TRA BOT：向屏幕的下面移动一格，方向不变</li>
+				<li>MOV LEF：方向转向屏幕左侧，并向屏幕的左侧移动一格</li>
+				<li>MOV TOP：方向转向屏幕上面，向屏幕的上面移动一格</li>
+				<li>MOV RIG：方向转向屏幕右侧，向屏幕的右侧移动一格</li>
+				<li>MOV BOT：方向转向屏幕下面，向屏幕的下面移动一格</li>
+			</ul>
+		</p>
+		<p> 移动不能超出格子空间.</p>
+		<div class="qipan">
+			<div class="qizi" style="top:225px;left:225px;" id="qizi">
+				<div class="qizi-1"></div>
+				<div class="qizi-2"></div>
+			</div>
+		</div>
+		<div class="input-container">
+			<input type="text" id="input_box" />
+			<button id="go">执行</button>
+		</div>
+
+		<script>
+			function init() {
+				var qizi = document.getElementById('qizi');
+				var inputBox = document.getElementById('input_box');
+				var go = document.getElementById('go');
+				//创建方向标记
+				var i = 0;
+
+				go.addEventListener('click', function() {
+					//获取用户输入，并转化为大写
+					var inputValue = inputBox.value.toUpperCase();
+					//根据用户输入对小方块进行操作，同时改变方向标记
+					switch (inputValue) {
+						case 'TUN LEF':
+							i--;
+							qizi.style.transform = 'rotate(' + 90 * i + 'deg)';
+							break;
+						case 'TUN RIG':
+							i++;
+							qizi.style.transform = 'rotate(' + 90 * i + 'deg)';
+							break;
+						case 'TUN BAC':
+							i -= 2;
+							qizi.style.transform = 'rotate(' + 90 * i + 'deg)';
+							break;
+						case 'GO':
+							//对方向标记取余，得到运动方向标记
+							var direction = Math.abs(i % 4);
+							//获取小方块的位置
+							//使用replace方法去掉返回的字符串中的px，然后对字符串进行强转
+							var left = Number(qizi.style.left.replace('px', ''));
+							var top = Number(qizi.style.top.replace('px', ''));
+							//根据运动方向标记对小方块进行移动
+							switch (direction) {
+								case 0:
+									if (top >= 45) {
+										top -= 45;
+										qizi.style.top = top + 'px';
+									}
+									break;
+								case 1:
+									if (left >= 45) {
+										left -= 45;
+										qizi.style.left = left + 'px';
+									}
+									break;
+								case 2:
+									if (top < 405) {
+										top += 45;
+										qizi.style.top = top + 'px';
+									}
+									break;
+								case 3:
+									if (left < 405) {
+										left += 45;
+										qizi.style.left = left + 'px';
+									}
+									break;
+							}
+							break;
+						case 'TRA LEF':
+							//使用replace方法去掉返回的字符串中的px，然后对字符串进行强转
+							var left = Number(qizi.style.left.replace('px', ''));
+
+							if (left >= 45) {
+								left -= 45;
+								qizi.style.left = left + 'px';
+							}
+							break;
+						case 'TRA TOP':
+							var top = Number(qizi.style.top.replace('px', ''));
+							if (top >= 45) {
+								top -= 45;
+								qizi.style.top = top + 'px';
+							}
+							break;
+						case 'TRA RIG':
+							var left = Number(qizi.style.left.replace('px', ''));
+							if (left < 405) {
+								left += 45;
+								qizi.style.left = left + 'px';
+							}
+							break;
+						case 'TRA BOT':
+							var top = Number(qizi.style.top.replace('px', ''));
+							if (top < 405) {
+								top += 45;
+								qizi.style.top = top + 'px';
+							}
+							break;
+						case 'MOV LEF':
+							//转向
+							i = 1;
+							qizi.style.transform = 'rotate(-90deg)';
+
+							//运动
+							var left = Number(qizi.style.left.replace('px', ''));
+							setTimeout(function() {
+								if (left >= 45) {
+									left -= 45;
+									qizi.style.left = left + 'px';
+								}
+							}, 1000);
+
+							break;
+						case 'MOV RIG':
+							i = 3;
+							qizi.style.transform = 'rotate(90deg)';
+							var left = Number(qizi.style.left.replace('px', ''));
+							setTimeout(function() {
+								if (left < 405) {
+									left += 45;
+									qizi.style.left = left + 'px';
+								}
+							}, 1000);
+
+							break;
+						case 'MOV TOP':
+							i = 0;
+							qizi.style.transform = 'rotate(0deg)';
+							var top = Number(qizi.style.top.replace('px', ''));
+
+							setTimeout(function() {
+								if (top >= 45) {
+									top -= 45;
+									qizi.style.top = top + 'px';
+								}
+							}, 1000);
+
+							break;
+						case 'MOV BOT':
+							i = 2;
+							qizi.style.transform = 'rotate(180deg)';
+							var top = Number(qizi.style.top.replace('px', ''));
+							setTimeout(function() {
+								if (top < 405) {
+									top += 45;
+									qizi.style.top = top + 'px';
+								}
+							}, 1000);
+
+							break;
+					}
+				});
+			}
+			init();
+		</script>
+	</body>
+
+</html>
