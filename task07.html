@@ -141,16 +141,6 @@
 				return document.getElementById(name);
 			}
 
-			function createTr(arr) {
-				var tr = document.createElement('tr');
-				arr.forEach(function(val, index, arr) {
-					var td = document.createElement('td');
-					td.innerText = val;
-					tr.appendChild(td);
-				});
-				table.appendChild(tr);
-			}
-
 			var table = $('table');
 			var chinese = $('chinese');
 			var maths = $('math');
@@ -165,18 +155,20 @@
 				var name = $('names');
 				var nameValue = name.value;
 
+				//获取各输入框的值
 				var chineseValue = parseInt(chinese.value);
 				var mathValue = parseInt(maths.value);
 				var englishValue = parseInt(english.value);
 				var totalValue = chineseValue + mathValue + englishValue;
-
+				//将获取的值，添加到缓存数组中
 				tempArr.push(nameValue);
 				tempArr.push(chineseValue);
 				tempArr.push(mathValue);
 				tempArr.push(englishValue);
 				tempArr.push(totalValue);
+				//将缓存数组添加到总数组中
 				totalArr.push(tempArr);
-
+				//读取总数组，生成一行表格
 				createTr(tempArr);
 			};
 
@@ -189,37 +181,88 @@
 			var toUp = $('toUp');
 			var toDown = $('toDown');
 
-			//arr是数组,prop是排序属性是一个数字,flag是正序还是负序
+			//数组排序,arr是要排序的数组,prop是按照二维数组中的子数组的哪一个值进行排序,语文是1,数学是2,英语是3,总分是4
+			//flag是排序方式的指针,为true进行正向排序，false为逆向排序
+			-
 			function sortArr(arr, prop, flag) {
-				var prop = prop || 1;
-				var flag = flag || true;
-
-				for(var i = 0; i < arr.length; i++) {
-					var temp;
-					console.log(arr[i][prop])
-					if(flag) {
-						if(arr[i][prop] > arr[i + 1][prop]) {
-							temp = arr[i + 1];
-							arr[i + 1] = arr[i];
-							arr[i] = temp;
-						}
-					} else {
-						if(arr[i][prop] < arr[i + 1][prop]) {
-							temp = arr[index + 1];
-							arr[i + 1] = arr[i];
-							arr[i] = temp;
+				//使用简单的冒泡算法实现，记住冒泡算法的循环是两层
+				for (var i = 0; i < arr.length - 1; i++) {
+					for (var j = 0; j < arr.length - i - 1; j++) {
+						var temp;
+						if (flag) {
+							if (arr[j][prop] > arr[j + 1][prop]) {
+								temp = arr[j + 1];
+								arr[j + 1] = arr[j];
+								arr[j] = temp;
+							}
+						} else {
+							if (arr[j][prop] < arr[j + 1][prop]) {
+								temp = arr[j + 1];
+								arr[j + 1] = arr[j];
+								arr[j] = temp;
+							}
 						}
 					}
+
 				}
 				return arr;
 			}
-			chUp.onclick = function() {
-				var sortedArr = sortArr(totalArr, 1, true);
+			//根据数组生成一行表格
+			function createTr(arr) {
+				//创建tr元素
+				var tr = document.createElement('tr');
+				arr.forEach(function(val, index, arr) {
+					//创建td元素
+					var td = document.createElement('td');
+					//更改td元素的文本
+					td.innerText = val;
+					//将td添加到tr中
+					tr.appendChild(td);
+				});
+				//将tr添加到tbody中
+				table.appendChild(tr);
+			}
+
+			//封装重新生成表格的方法
+			function reCreate(arr, num, flag) {
+				//先对数组进行排序
+				var sortedArr = sortArr(arr, num, flag);
+				//清除原来表格的数据
 				table.innerHTML = '';
-				sortedArr.forEach(function(val,index,arr){
+				//创建表格
+				sortedArr.forEach(function(val, index, arr) {
 					createTr(val);
 				});
-				
+			}
+
+			chUp.onclick = function() {
+				reCreate(totalArr, 1, true);
+			};
+			chDown.onclick = function() {
+				reCreate(totalArr, 1, false);
+			};
+			maUp.onclick = function() {
+				reCreate(totalArr, 2, true);
+
+			};
+			maDown.onclick = function() {
+				reCreate(totalArr, 2, false);
+
+			};
+			enUp.onclick = function() {
+				reCreate(totalArr, 3, true);
+
+			};
+			enDown.onclick = function() {
+				reCreate(totalArr, 3, false);
+
+			};
+			toUp.onclick = function() {
+				reCreate(totalArr, 4, true);
+
+			};
+			toDown.onclick = function() {
+				reCreate(totalArr, 4, false);
 			};
 		</script>
 	</body>
