@@ -216,7 +216,10 @@
 			chUp.onclick = function() {
 				var sortedArr = sortArr(totalArr, 1, true);
 				table.innerHTML = '';
-				createTr(sortedArr);
+				sortedArr.forEach(function(val,index,arr){
+					createTr(val);
+				});
+				
 			};
 		</script>
 	</body>
