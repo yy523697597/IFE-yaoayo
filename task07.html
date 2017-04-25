@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>ife yaoyao task07</title>
+		<style>
+			* {
+				padding: 0;
+				margin: 0;
+				box-sizing: border-box;
+			}
+			
+			body {
+				width: 600px;
+				margin: 0 auto;
+				font-family: "微软雅黑";
+			}
+			
+			caption {
+				margin: 10px;
+			}
+			
+			table {
+				width: 600px;
+				margin: 0 auto;
+				border-collapse: collapse;
+				text-align: center;
+			}
+			
+			table,
+			tr,
+			th,
+			td {
+				border: 1px solid #ccc;
+			}
+			
+			th,
+			td {
+				width: 20%;
+			}
+			
+			th {
+				background: #5B5B5B;
+				color: #fff;
+				height: 50px;
+				line-height: 50px;
+			}
+			
+			input {
+				width: 240px;
+				margin: 10px;
+				height: 25px;
+				border-radius: 3px;
+			}
+			
+			button {
+				width: 400px;
+				margin-left: 100px;
+				margin-bottom: 30px;
+				height: 30px;
+				background-color: #fff;
+				border-radius: 3px;
+				transition: all 1s;
+				font-size: 20px;
+			}
+			
+			button:hover {
+				background-color: #5B5B5B;
+				color: #fff;
+			}
+			
+			th div {
+				display: inline-block;
+				float: right;
+				height: 50px;
+			}
+			
+			th div div {
+				display: block;
+				height: 25px;
+				line-height: 25px;
+				width: 100%;
+				font-size: 20px;
+				cursor: pointer;
+			}
+			
+			th div div:hover {
+				color: #f00;
+			}
+		</style>
+	</head>
+
+	<body>
+		<label for="name">姓名</label>
+		<input type="text" id="names" />
+		<label for="chinese">语文</label>
+		<input type="text" id="chinese" />
+		<label for="math">数学</label>
+		<input type="text" id="math" />
+		<label for="english">英语</label>
+		<input type="text" id="english" />
+		<button id="subBtn">提交</button>
+		<table>
+
+			<caption>排序表格组件</caption>
+			<tr>
+				<th>姓名</th>
+				<th>语文
+					<div>
+						<div id="chUp">∧</div>
+						<div id="chDown">∨</div>
+					</div>
+				</th>
+				<th>数学
+					<div>
+						<div id="maUp">∧</div>
+						<div id="maDown">∨</div>
+					</div>
+				</th>
+				<th>英语
+					<div>
+						<div id="enUp">∧</div>
+						<div id="enDown">∨</div>
+					</div>
+				</th>
+				<th>总分
+					<div>
+						<div id="toUp">∧</div>
+						<div id="toDown">∨</div>
+					</div>
+				</th>
+			</tr>
+			<tbody id="table">
+
+			</tbody>
+
+		</table>
+		<script>
+			function $(name) {
+				return document.getElementById(name);
+			}
+
+			function createTr(arr) {
+				var tr = document.createElement('tr');
+				arr.forEach(function(val, index, arr) {
+					var td = document.createElement('td');
+					td.innerText = val;
+					tr.appendChild(td);
+				});
+				table.appendChild(tr);
+			}
+
+			var table = $('table');
+			var chinese = $('chinese');
+			var maths = $('math');
+			var english = $('english');
+			var subBtn = $('subBtn');
+
+			var totalArr = [];
+			//添加信息
+			subBtn.onclick = function() {
+
+				var tempArr = [];
+				var name = $('names');
+				var nameValue = name.value;
+
+				var chineseValue = parseInt(chinese.value);
+				var mathValue = parseInt(maths.value);
+				var englishValue = parseInt(english.value);
+				var totalValue = chineseValue + mathValue + englishValue;
+
+				tempArr.push(nameValue);
+				tempArr.push(chineseValue);
+				tempArr.push(mathValue);
+				tempArr.push(englishValue);
+				tempArr.push(totalValue);
+				totalArr.push(tempArr);
+
+				createTr(tempArr);
+			};
+
+			var chUp = $('chUp');
+			var chDown = $('chDown');
+			var maUp = $('maUp');
+			var maDown = $('maDown');
+			var enUp = $('enUp');
+			var enDown = $('enDown');
+			var toUp = $('toUp');
+			var toDown = $('toDown');
+
+			//arr是数组,prop是排序属性是一个数字,flag是正序还是负序
+			function sortArr(arr, prop, flag) {
+				var prop = prop || 1;
+				var flag = flag || true;
+
+				for(var i = 0; i < arr.length; i++) {
+					var temp;
+					console.log(arr[i][prop])
+					if(flag) {
+						if(arr[i][prop] > arr[i + 1][prop]) {
+							temp = arr[i + 1];
+							arr[i + 1] = arr[i];
+							arr[i] = temp;
+						}
+					} else {
+						if(arr[i][prop] < arr[i + 1][prop]) {
+							temp = arr[index + 1];
+							arr[i + 1] = arr[i];
+							arr[i] = temp;
+						}
+					}
+				}
+				return arr;
+			}
+			chUp.onclick = function() {
+				var sortedArr = sortArr(totalArr, 1, true);
+				table.innerHTML = '';
+				createTr(sortedArr);
+			};
+		</script>
+	</body>
+
+</html>
